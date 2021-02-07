@@ -1,0 +1,16 @@
+{
+  "fr-FR": {
+    "default": "decouvrons-notre-espace-naturel",
+    "contact": "adresse",
+    "legalNotice": "mentions-legales",
+    "newsList": "actualites",
+    "galleries": "phototheque"
+  },
+  "en-US": {
+    "default": "discover-our-natural-space",
+    "contact": "address",
+    "legalNotice": "legal-notice",
+    "newsList": "news",
+    "galleries": "galleries"
+  }
+}

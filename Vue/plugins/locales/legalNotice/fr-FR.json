@@ -1,0 +1,28 @@
+{
+  "legalNotice": {
+    "property": "Propriété",
+    "hosting": "Hébergement et nom de domaine",
+    "hostingContent-1": "Société immatriculée sous le numéro RCS Roubaix",
+    "websiteCreator": "Créateur du site",
+    "websiteCreatorContent-1": "Site internet conçu aux normes",
+    "websiteCreatorContent-2": "Si vous rencontrez des difficultés d'accès ou d'utilisation sur le site, n'hésitez pas à nous en faire part en utilisant {0}",
+    "ourContactForm": "notre formulaire de contact",
+    "contentCredits": "Crédits contenus",
+    "fontsFace": "Typographies",
+    "pictures": "Photos / graphisme",
+    "intellectualProperty": "Propriété intellectuelle",
+    "intellectualPropertyContent-1": "Tous les textes, photos, vidéos, données, logos, et autres éléments reproduits sur le site sont réservés et protégés par le droit de la propriété intellectuelle.{line-break}En conséquence, aucune exploitation, diffusion, reproduction, ou autre opération sur ces documents, même partielle, ne peut être faite sans l'autorisation expresse de l'auteur, conformément aux articles L 111-1, L 122-1 et L 122-4 du Code de la Propriété Intellectuelle.{line-break}Seules sont autorisées les exceptions légales prévues à l'article L 122-5 du Code de la propriété intellectuelle, à savoir la représentation dans le cadre du cercle de famille, la copie privée ou le droit de courte citation (sous réserve dans ce cas que soient indiqués clairement le nom de l'auteur et la source).",
+    "cookiesContent-1": "Lors de vos visites sur le site, un cookie peut s'installer automatiquement sur votre navigateur.{line-break}Les cookies ont différentes fonctions. Ils peuvent permettre à celui qui l'a déposé de reconnaître un internaute, d'une visite à une autre, grâce à un identifiant unique.{line-break}Certains cookies peuvent aussi être utilisés pour stocker le contenu d'un panier d'achat, d'autres pour enregistrer les paramètres de langue d'un site, d'autres encore pour faire de la publicité ciblée.{line-break}Il vous est possible de détecter l'existence de ces cookies et si vous le souhaitez de les supprimer.{line-break}Il vous est également possible de vous opposer à l'enregistrement de cookies en désactivant cette fonction dans les préférences de votre navigateur.",
+    "cookiesContent-2": "Le site {0} utilise les types de cookies suivants :",
+    "cookiesContent-3": "Cookies de préférence. Ces cookies permettent de conserver le choix d'un internaute sur le site (par exemple une préférence de langue)",
+    "cookiesContent-4": "Cookie de navigation (pour nous aider à améliorer nos services et l'expérience de navigation de nos utilisateurs)",
+    "hotlinking": "Interdiction de mirroring et de hotlinking",
+    "hotlinkingContent-1": "Ce site web est accessible via son URL {url}. Aucune mise en ligne du site par un tiers sous une autre URL n'est autorisée.{line-break}Il est également interdit d'utiliser l'adresse d'un fichier publié sur ce site pour l'afficher sur un autre site web.",
+    "dysfunction": "Dysfonctionnement",
+    "dysfunctionContent-1": "La société {0} ne saurait être tenue responsable des cas suivants durant l'utilisation du site :",
+    "dysfunctionContent-2": "mauvais fonctionnement",
+    "dysfunctionContent-3": "interruption du serveur, coupure ADSL",
+    "dysfunctionContent-4": "virus",
+    "dysfunctionContent-5": "dommages quelconques"
+  }
+}

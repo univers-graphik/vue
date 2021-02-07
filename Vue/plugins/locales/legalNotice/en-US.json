@@ -1,0 +1,28 @@
+{
+  "legalNotice": {
+    "property": "Property",
+    "hosting": "Hosting and domain name",
+    "hostingContent-1": "Company registered under number",
+    "websiteCreator": "Website creator",
+    "websiteCreatorContent-1": "Website designed to standards",
+    "websiteCreatorContent-2": "If you have difficulties accessing or using the site, please let us know by using {0}",
+    "ourContactForm": "our contact form",
+    "contentCredits": "Content credits",
+    "fontsFace": "Fonts face",
+    "pictures": "Pictures / graphics",
+    "intellectualProperty": "Intellectual property",
+    "intellectualPropertyContent-1": "All texts, photos, videos, data, logos, and other elements reproduced on the site are reserved and protected by intellectual property law.{line-break}Consequently, no exploitation, distribution, reproduction, or other operation on these documents, even partial, can be made without the express authorization of the author, in accordance with articles L 111-1, L 122-1 and L 122- 4 of the Intellectual Property Code.{line-break}Only the legal exceptions provided for in article L 122-5 of the Intellectual Property Code are authorized, namely representation within the framework of the family circle, private copying or the right of short quotation (subject in this case that the name of the author and the source are clearly indicated).",
+    "cookiesContent-1": "During your visits to the site, a cookie may be automatically installed on your browser.{line-break}Cookies have different functions. They can allow the person who filed it to recognize a user from one visit to another, using a unique identifier.{line-break}Some cookies can also be used to store the contents of a shopping cart, others to save the language settings of a site, and still others to target advertising.{line-break}It is possible for you to detect the existence of these cookies and if you wish to delete them.{line-break}You can also oppose the registration of cookies by disabling this function in your browser preferences.",
+    "cookiesContent-2": "The {0} website uses the following types of cookies :",
+    "cookiesContent-3": "Preferably cookies. These cookies make it possible to keep the choice of a user on the site (for example a language preference)",
+    "cookiesContent-4": "Navigation cookie (to help us improve our services and the browsing experience of our users)",
+    "hotlinking": "Prohibition of mirroring and hotlinking",
+    "hotlinkingContent-1": "This website is accessible via its URL {url}. No posting of the site by a third party under another URL is authorized.{line-break}It is also prohibited to use the address of a file published on this site to display it on another website.",
+    "dysfunction": "Dysfunction",
+    "dysfunctionContent-1": "{0} cannot be held responsible for the following cases during the use of the site :",
+    "dysfunctionContent-2": "malfunctionning",
+    "dysfunctionContent-3": "server interruption, ADSL outage",
+    "dysfunctionContent-4": "virus",
+    "dysfunctionContent-5": "any damage"
+  }
+}

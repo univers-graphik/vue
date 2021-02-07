@@ -1,0 +1,130 @@
+{
+  "en-US": {
+    "common": {
+      "warning": "Warning",
+      "noDataPage": "No content is available for this page currently",
+      "ourCoordinates": "Our coordinates",
+      "yourCoordinates": "Your coordinates",
+      "yourMessage": "Your message",
+      "lastName": "last name | Last name",
+      "firstName": "first name | First name",
+      "society": "society | Society",
+      "heading": "Heading | Headings",
+      "email": "e-mail | E-mail",
+      "phone": "phone | Phone",
+      "subject": "subject | Subject",
+      "message": "message | Message",
+      "emailingRegistration": "Subscribe to e-mailings",
+      "fax": "fax",
+      "fixed_phone": "phone",
+      "send": "Send",
+      "sendMessage": "Send a message",
+      "sendEmail": "Send an email",
+      "contactUs": "Contact us",
+      "informations": "Informations",
+      "websiteCreation": "Website creation",
+      "importantSiteNotices": "Important site notices",
+      "followUs": "Follow us",
+      "followFacebook": "Find us on Facebook",
+      "followTwitter": "Follow us on twitter",
+      "requiredFields": "Required fields",
+      "search": "Search",
+      "login": "Log In",
+      "cart": "My cart",
+      "galleries": "Galleries",
+      "pictures": "Pictures",
+      "noResults": "No results",
+      "newsStar": "News not to be missed",
+      "by": "by | By",
+      "published": "Published on"
+    },
+    "validate": {
+      "message": {
+        "required": "This field is required",
+        "email": "Please enter a valid email address",
+        "generalError": "The form contains 1 error ! | The form contains {count} errors"
+      }
+    },
+    "language": {
+      "label": "Languages",
+      "fr-FR": "French",
+      "en-US": "English (US)"
+    },
+    "pages": {
+      "title": {
+        "homePage": "Discover our natural space",
+        "error404": "Page not found",
+        "contact": "Contact us",
+        "legalNotice": "Legal notice",
+        "newsList": "News",
+        "galleries": "Galleries"
+      },
+      "navmain": {
+        "homePage": "Homepage",
+        "contact": "Contact",
+        "legalNotice": "Legal notice"
+      }
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content-1": "This website uses cookies",
+      "content-2": "Cookies ensure the proper functioning of our sites and services.{line-break}They also allow us to offer social media features and analyze our traffic.{line-break}By using these, you accept the use of cookies.",
+      "link": "Find out more",
+      "button": "Yes I accept"
+    },
+    "browser": {
+      "messageIE-1": "Your browser (Internet Explorer {versionIE}) lacks performance on several levels and is not suitable for our website.",
+      "messageIE-2": "For optimal use of this site, we recommend using a much more recent browser :"
+    },
+    "error404": {
+      "title": "It seems that you have lost your way !",
+      "content-1": "Click on the link below to go to the home page of the site."
+    },
+    "flashMessage": {
+      "success": {
+        "title-1": "Successful !",
+        "content-1": "Your message has been sent"
+      },
+      "error": {
+        "title-1": "Error !",
+        "content-1": "Could not load page",
+        "content-2": "Unable to validate your request",
+        "content-3": "Please reload the page"
+      }
+    },
+    "footer": {
+      "rightsReserved": "All rights reserved"
+    },
+    "contact": {
+      "subject-1": "Request a quote",
+      "subject-2": "Question",
+      "subject-3": "Comment",
+      "subject-4": "Other subject"
+    },
+    "recaptcha": {
+      "content": "This site is protected by reCAPTCHA and the Google {link1} and {link2} apply.",
+      "privacy": "Privacy Policy",
+      "tos": "Term of Service"
+    },
+    "pagination": {
+      "prev": "previous page",
+      "next": "next page",
+      "goTo": "go to page {page} of {total}",
+      "current": "current page {page} of {total}"
+    },
+    "gallery": {
+      "prev": "previous",
+      "next": "next",
+      "close": "close"
+    },
+    "staticSidebar": {
+      "content-1": "This website multi-media (mobile, tablet, desktop) was designed with our content manager application.{line-break}Each page is fully manageable and offered in multi-language."
+    },
+    "news": {
+      "comment": "0 comment | 1 comment | {count} comments",
+      "titleForm": "Post your comment",
+      "prev": "Previous news",
+      "next": "Next news"
+    }
+  }
+}

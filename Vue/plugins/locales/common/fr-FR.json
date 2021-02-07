@@ -1,0 +1,130 @@
+{
+  "fr-FR": {
+    "common": {
+      "warning": "Attention",
+      "noDataPage": "Aucun contenu n'est disponible pour cette page actuellement",
+      "ourCoordinates": "Nos coordonnées",
+      "yourCoordinates": "Vos coordonnées",
+      "yourMessage": "Votre message",
+      "lastName": "nom | Nom",
+      "firstName": "prénom | Prénom",
+      "society": "société | Société",
+      "heading": "Rubrique | Rubriques",
+      "email": "e-mail | E-mail",
+      "phone": "téléphone | Téléphone",
+      "subject": "sujet | Sujet",
+      "message": "message | Message",
+      "emailingRegistration": "Inscription aux e-mailings",
+      "fax": "fax",
+      "fixed_phone": "téléphone fixe",
+      "send": "Envoyer",
+      "sendMessage": "Envoyer un message",
+      "sendEmail": "Envoyer un e-mail",
+      "contactUs": "Nous contacter",
+      "informations": "Informations",
+      "websiteCreation": "Création de sites internet",
+      "importantSiteNotices": "Les mentions importantes du site",
+      "followUs": "Suivez-nous",
+      "followFacebook": "Retrouvez nous sur Facebook",
+      "followTwitter": "Suivez nous sur Twitter",
+      "requiredFields": "Champs requis",
+      "search": "Rechercher",
+      "login": "Me connecter",
+      "cart": "Mon panier",
+      "galleries": "Photothèque",
+      "pictures": "Photos",
+      "noResults": "Aucun résultat trouvé",
+      "newsStar": "Articles à ne pas rater",
+      "by": "par | Par",
+      "published": "Publié le"
+    },
+    "validate": {
+      "message": {
+        "required": "Ce champ est obligatoire",
+        "email": "Merci de saisir une adresse e-mail valide",
+        "generalError": "Le formulaire contient 1 erreur ! | Le formulaire contient {count} erreurs !"
+      }
+    },
+    "language": {
+      "label": "Langues",
+      "fr-FR": "Français",
+      "en-US": "Anglais (US)"
+    },
+    "pages": {
+      "title": {
+        "homePage": "Découvrons notre espace naturel",
+        "error404": "Page introuvable",
+        "contact": "Contactez-nous",
+        "legalNotice": "Mentions légales",
+        "newsList": "Actualités",
+        "galleries": "Photothèque"
+      },
+      "navmain": {
+        "homePage": "Accueil",
+        "contact": "Contact",
+        "legalNotice": "Mentions légales"
+      }
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content-1": "Ce site Web utilise des cookies",
+      "content-2": "Les cookies assurent le bon fonctionnement de nos sites et services.{line-break}Ils nous permettent également d'offrir des fonctionnalités relatives aux médias sociaux et d'analyser notre trafic.{line-break}En utilisant ces derniers, vous acceptez l'utilisation des cookies.",
+      "link": "En savoir plus",
+      "button": "Oui, j'accepte"
+    },
+    "browser": {
+      "messageIE-1": "Votre navigateur (Internet Explorer {versionIE}) manque de performance à plusieurs niveaux et n'est pas adapté à notre site web.",
+      "messageIE-2": "Pour une utilisation optimale de ce site, nous vous conseillons l'utilisation d'un navigateur beaucoup plus récent :"
+    },
+    "error404": {
+      "title": "Il semblerait que vous vous soyez égaré !",
+      "content-1": "Cliquez sur le lien ci-dessous afin de vous rendre à la page d'accueil du site."
+    },
+    "flashMessage": {
+      "success": {
+        "title-1": "Opération réussie !",
+        "content-1": "Votre message a été envoyé"
+      },
+      "error": {
+        "title-1": "Une erreur est survenue !",
+        "content-1": "Impossible de charger la page",
+        "content-2": "Impossible de valider votre demande",
+        "content-3": "Merci de recharger la page"
+      }
+    },
+    "footer": {
+      "rightsReserved": "Tout droits réservés"
+    },
+    "contact": {
+      "subject-1": "Demande de devis",
+      "subject-2": "Question",
+      "subject-3": "Commentaire",
+      "subject-4": "Autre sujet"
+    },
+    "recaptcha": {
+      "content": "Ce site est protégé par reCAPTCHA. Il s'y applique {link1} et {link2} de Google.",
+      "privacy": "la politique de confidentialité",
+      "tos": "les conditions d'utilisation"
+    },
+    "pagination": {
+      "prev": "page précédente",
+      "next": "page suivante",
+      "goTo": "aller à la page {page} sur {total}",
+      "current": "page courante {page} sur {total}"
+    },
+    "gallery": {
+      "prev": "image précédente",
+      "next": "image suivante",
+      "close": "fermer"
+    },
+    "staticSidebar": {
+      "content-1": "Ce site web multi supports (mobile, tablette, desktop) a été conçu avec notre application de gestionnaire de contenu.{line-break}Chaque page est entièrement administrable et proposée en multi-langue."
+    },
+    "news": {
+      "comment": "0 commentaire | 1 commentaire | {count} commentaires",
+      "titleForm": "Laissez votre commentaire",
+      "prev": "Article précédent",
+      "next": "Article suivant"
+    }
+  }
+}
