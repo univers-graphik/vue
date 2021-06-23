@@ -1,6 +1,8 @@
 import endpoints from '@Declarations/endpoints'
 import Request from '@Class/Request'
 
+const request = new Request({})
+
 export default {
   /**
    * Get panoramic image data
@@ -9,7 +11,7 @@ export default {
    * @returns {Promise<T | never>}
    */
   get ({ id, params }) {
-    return Request
+    return request
       .get(endpoints.PANORAMICS.replace('{{id}}', id), { params })
       .then((response) => {
         return response

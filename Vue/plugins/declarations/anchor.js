@@ -7,5 +7,6 @@ export default Object.freeze({
   HOTLINKING: 'hotlinking',
   DYSFUNCTION: 'dysfunction',
   COOKIES: 'cookies',
-  FORM_CONTACT: 'formContact'
+  CONTACT_FORM: 'contactForm',
+  MAIN_CONTENT: 'mainContent'
 })

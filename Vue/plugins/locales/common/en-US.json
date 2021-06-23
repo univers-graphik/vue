@@ -18,31 +18,37 @@
       "fax": "fax",
       "fixed_phone": "phone",
       "send": "Send",
-      "sendMessage": "Send a message",
+      "sendMessage": "Send a message | Send your message",
       "sendEmail": "Send an email",
       "contactUs": "Contact us",
       "informations": "Informations",
       "websiteCreation": "Website creation",
       "importantSiteNotices": "Important site notices",
       "followUs": "Follow us",
-      "followFacebook": "Find us on Facebook",
       "followTwitter": "Follow us on twitter",
+      "followFacebook": "Find us on Facebook",
+      "followLinkedin": "We are on Linkedin",
+      "followPinterest": "Find us on Pinterest",
       "requiredFields": "Required fields",
       "search": "Search",
+      "enterYourSearch": "Enter your search",
       "login": "Log In",
       "cart": "My cart",
       "galleries": "Galleries",
       "pictures": "Pictures",
       "noResults": "No results",
-      "newsStar": "News not to be missed",
+      "leadNews": "News not to be missed",
       "by": "by | By",
-      "published": "Published on"
+      "published": "Published on",
+      "updated": "Updated on",
+      "readMore": "Read more",
+      "mainMenu": "main menu"
     },
     "validate": {
       "message": {
         "required": "This field is required",
         "email": "Please enter a valid email address",
-        "generalError": "The form contains 1 error ! | The form contains {count} errors"
+        "generalError": "The form contains 1 error | The form contains {count} errors"
       }
     },
     "language": {
@@ -89,7 +95,8 @@
         "title-1": "Error !",
         "content-1": "Could not load page",
         "content-2": "Unable to validate your request",
-        "content-3": "Please reload the page"
+        "content-3": "Please reload the page",
+        "content-4": "The form contains errors"
       }
     },
     "footer": {
@@ -117,14 +124,25 @@
       "next": "next",
       "close": "close"
     },
-    "staticSidebar": {
-      "content-1": "This website multi-media (mobile, tablet, desktop) was designed with our content manager application.{line-break}Each page is fully manageable and offered in multi-language."
-    },
     "news": {
       "comment": "0 comment | 1 comment | {count} comments",
       "titleForm": "Post your comment",
       "prev": "Previous news",
-      "next": "Next news"
+      "next": "Next news",
+      "lastNews": "Last news"
+    },
+    "product": {
+      "seeMore": "See product",
+      "status": {
+        "st-1": "New",
+        "st-2": "Coming soon",
+        "st-3": "Unavailable"
+      }
+    },
+    "accessibility": {
+      "skipToContent": "Skip to content",
+      "skipToNavigation": "Skip to navigation",
+      "skipToSearch": "Skip to search"
     }
   }
 }

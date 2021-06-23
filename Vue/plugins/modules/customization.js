@@ -1,6 +1,8 @@
 import endpoints from '@Declarations/endpoints'
 import Request from '@Class/Request'
 
+const request = new Request({})
+
 export default {
   namespaced: true,
   state: {
@@ -43,7 +45,7 @@ export default {
      * @returns {Promise<T | never>}
      */
     get (context) {
-      return Request
+      return request
         .get(endpoints.CUSTOMIZATION)
         .then((response) => {
           // Save data

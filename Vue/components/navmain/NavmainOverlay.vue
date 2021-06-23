@@ -13,15 +13,31 @@ export default {
      */
     closeNavmain () {
       this.$store.commit('parameters/setOpenNavmain', false)
-      document.documentElement.removeAttribute('style')
+    },
+    /**
+     * Close navmain by escape
+     * @param {object} event
+     */
+    closeNavmainByEscape (event) {
+      if (event.key === 'Escape' || event.key === 'Esc') {
+        this.closeNavmain()
+      }
+      event.preventDefault()
     }
   },
   mounted () {
     // Listener touchstart overlay
-    if (this.$refs.navmainOverlay) this.$refs.navmainOverlay.addEventListener('touchstart', this.closeNavmain, false)
+    if (this.$refs.navmainOverlay) {
+      this.$refs.navmainOverlay.addEventListener('touchstart', this.closeNavmain, false)
+    }
+    // Listener escape
+    window.addEventListener('keyup', this.closeNavmainByEscape, false)
   },
   destroyed () {
-    if (this.$refs.navmainOverlay) this.$refs.navmainOverlay.removeEventListener('touchstart', this.closeNavmain, false)
+    if (this.$refs.navmainOverlay) {
+      this.$refs.navmainOverlay.removeEventListener('touchstart', this.closeNavmain, false)
+    }
+    window.removeEventListener('keyup', this.closeNavmainByEscape, false)
   }
 }
 </script>

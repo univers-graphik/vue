@@ -1,37 +1,42 @@
 <template>
   <div class="customization gallery">
     <!-- Meta -->
-    <Meta :title="title || $enums.config.SOCIETY_SITE"
-          :url="$pagesUrl[$i18n.locale].default"/>
+    <meta-manager :title="title || $enums.config.SOCIETY_SITE"
+                  :url="$pagesUrl[$i18n.locale].default"/>
 
     <!-- Gallery loaded -->
     <template v-if="loaded">
-      <!-- Title gallery -->
-      <h1 class="gallery__title">{{ title }}</h1>
-
       <!-- Main container -->
-      <div v-lazy-container="{ selector: 'img', error: imageError, loading: imageLoader }"
-           class="mainContainer mainContainer--spacerTB is-alignCenter">
+      <main v-lazy-container="{ selector: 'img', error: $enums.images.ERROR_200x200, loading: $enums.images.LOADER }"
+            class="mainContainer mainContainer--spacerTB is-alignCenter"
+            role="main">
+        <!-- Focus element for skip link -->
+        <focus-to-content/>
+
+        <!-- Title gallery -->
+        <h1 class="gallery__title"
+            data-focus-title>{{ title }}</h1>
+
         <!-- Gallery theme -->
-        <GalleryLightGallery
-          v-if="[$enums.galleryTheme.LIGHT_GALLERY, $enums.galleryTheme.LIGHT_GALLERY_SIMPLE].indexOf(theme) != -1"
+        <light-gallery
+          v-if="[$enums.galleryTheme.LIGHT_GALLERY, $enums.galleryTheme.LIGHT_GALLERY_SIMPLE].includes(theme)"
           :items="items"
           :alt="cAlt"
           :theme="theme"/>
 
-        <GalleryViewer v-if="theme === $enums.galleryTheme.VIEWER"
-                       :items="items"
-                       :alt="cAlt"/>
+        <viewer-gallery v-else-if="theme === $enums.galleryTheme.VIEWER"
+                        :items="items"
+                        :alt="cAlt"/>
 
-        <GalleryMediaBox v-if="theme === $enums.galleryTheme.MEDIA_BOX"
-                         :items="items"
-                         :alt="cAlt"/>
-
-        <GalleryNodePhotos v-if="theme === $enums.galleryTheme.NODE_PHOTOS"
+        <media-box-gallery v-else-if="theme === $enums.galleryTheme.MEDIA_BOX"
                            :items="items"
                            :alt="cAlt"/>
+
+        <node-photos-gallery v-else-if="theme === $enums.galleryTheme.NODE_PHOTOS"
+                             :items="items"
+                             :alt="cAlt"/>
         <!-- / Gallery theme -->
-      </div>
+      </main>
       <!-- / Main container -->
     </template>
     <!-- / Gallery loaded -->
@@ -39,30 +44,37 @@
 </template>
 
 <script>
-import Meta from '@Components/meta/Meta'
-import GalleryLightGallery from '@Components/gallery/GalleryLightGallery'
-import GalleryViewer from '@Components/gallery/GalleryViewer'
-import GalleryMediaBox from '@Components/gallery/GalleryMediaBox'
-import GalleryNodePhotos from '@Components/gallery/GalleryNodePhotos'
+import galleryServices from '@Services/galleryServices'
+import MetaManager from '@Components/meta/MetaManager'
+import LightGallery from '@Components/gallery/LightGallery'
+import ViewerGallery from '@Components/gallery/ViewerGallery'
+import MediaBoxGallery from '@Components/gallery/MediaBoxGallery'
+import NodePhotosGallery from '@Components/gallery/NodePhotosGallery'
+import FocusToContent from '@Components/accessibility/FocusToContent'
 
 export default {
   name: 'Gallery',
+  props: {
+    id: {
+      type: [Number, String],
+      required: false
+    }
+  },
   data () {
     return {
       loaded: false,
       title: '',
       theme: '',
-      items: [],
-      imageError: '/medias/interface/image-error.gif',
-      imageLoader: '/medias/interface/image-loader.svg'
+      items: []
     }
   },
   components: {
-    Meta,
-    GalleryLightGallery,
-    GalleryViewer,
-    GalleryMediaBox,
-    GalleryNodePhotos
+    MetaManager,
+    LightGallery,
+    ViewerGallery,
+    MediaBoxGallery,
+    NodePhotosGallery,
+    FocusToContent
   },
   computed: {
     /**
@@ -75,9 +87,9 @@ export default {
   },
   created () {
     // Load data
-    this.$store.dispatch('gallery/getGallery', {
-      lang: this.$store.state.parameters.urlLang,
-      id: this.$route.params.id
+    galleryServices.getGallery({
+      lang: this.cCurrentLanguage,
+      id: this.id
     })
       .then((response) => {
         const data = response.data.data
@@ -90,7 +102,9 @@ export default {
         // Redirect to 404
         this.$router.push({ name: this.$enums.pages.ERROR_404 })
       })
-      .finally(() => this.loaded = true)
+      .finally(() => {
+        this.loaded = true
+      })
   }
 }
 </script>

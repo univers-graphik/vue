@@ -1,6 +1,7 @@
 <template>
-  <div :class="[{ 'flashMessage--noTitle': !title }, 'flashMessage--' + status + '', { 'flashMessage--reload': $store.state.flashMessage.reloadButton }]"
-       class="flashMessage">
+  <div
+    :class="[{ 'flashMessage--noTitle': !title }, 'flashMessage--' + status + '', { 'flashMessage--reload': $store.state.flashMessage.reloadButton }]"
+    class="flashMessage">
     <!-- Icon -->
     <i :class="'icon-' + status"
        class="flashMessage__icon"></i>
@@ -73,80 +74,80 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @keyframes progressItem-animation {
-    0% {
-      transform: scaleX(0);
-    }
-    100% {
-      transform: scaleX(1);
-    }
+@keyframes progressItem-animation {
+  0% {
+    transform: scaleX(0);
   }
+  100% {
+    transform: scaleX(1);
+  }
+}
 
-  .flashMessage {
-    margin: 5px auto;
+.flashMessage {
+  margin: rem(5) auto;
+  display: block;
+  box-shadow: 0 0 4px rgba(Black, .4);
+  font-size: rem(14);
+
+  &:after {
+    content: '';
+    width: 100%;
+    height: rem(4);
     display: block;
-    box-shadow: 0 0 4px rgba(Black, .4);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
+    background-color: Black;
+    transform-origin: left;
+    animation: progressItem-animation 4s ease;
+  }
 
-    &:after {
-      content: '';
-      width: 100%;
-      height: 4px;
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      border-radius: 2px;
-      background-color: Black;
-      transform-origin: left;
-      animation: progressItem-animation 4s ease;
-    }
+  &__reload {
+    $size: rem(40);
 
-    &__reload {
-      $size: 40px;
+    margin-top: -$size / 2;
+    padding: 0 rem(10);
+    width: $size;
+    height: $size;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: rem(10);
+    border-radius: 2px;
+    background-color: darken($colorError, 20%);
+    box-shadow: 0 0 2px Black;
+    color: White;
 
-      margin-top: -$size / 2;
-      padding: 0 10px;
-      width: $size;
-      height: $size;
-      display: block;
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      border-radius: 2px;
-      background-color: darken($colorError, 20%);
-      box-shadow: 0 0 2px Black;
-      color: White;
-
-      [class*="icon-"] {
-        display: inline-block;
-        transform: scale(2);
-        transform-origin: center;
-      }
-    }
-
-    &--warning {
-      &:after {
-        background-color: darken($colorWarning, 20%);
-      }
-    }
-
-    &--error {
-      &:after {
-        background-color: darken($colorError, 20%);
-      }
-    }
-
-    &--success {
-      &:after {
-        background-color: darken($colorSuccess, 20%);
-      }
-    }
-
-    &--info {
-      &:after {
-        background-color: darken($colorInfo, 20%);
-      }
+    [class*="icon-"] {
+      display: inline-block;
+      transform: scale(2);
+      transform-origin: center;
     }
   }
-</style>
 
+  &--warning {
+    &:after {
+      background-color: darken($colorWarning, 20%);
+    }
+  }
+
+  &--error {
+    &:after {
+      background-color: darken($colorError, 20%);
+    }
+  }
+
+  &--success {
+    &:after {
+      background-color: darken($colorSuccess, 20%);
+    }
+  }
+
+  &--info {
+    &:after {
+      background-color: darken($colorInfo, 20%);
+    }
+  }
+}
+</style>

@@ -1,6 +1,8 @@
 import endpoints from '@Declarations/endpoints'
 import Request from '@Class/Request'
 
+const request = new Request({})
+
 export default {
   /**
    * Get data sidebar
@@ -9,7 +11,7 @@ export default {
    * @returns {Promise<T | never>}
    */
   get ({ lang, params }) {
-    return Request
+    return request
       .get(endpoints.SEARCH.replace('{{lang}}', lang), { params })
       .then((response) => {
         return response

@@ -79,22 +79,16 @@ export default {
       switch (index) {
         case 0:
           return `translateZ(${this.cTranslateZ})`
-          break
         case 1:
           return `rotateY(90deg) translateZ(${this.cTranslateZ})`
-          break
         case 2:
           return `rotateY(180deg) translateZ(${this.cTranslateZ})`
-          break
         case 3:
           return `rotateY(-90deg) translateZ(${this.cTranslateZ})`
-          break
         case 4:
           return `rotateX(-90deg) translateZ(${this.cTranslateZ})`
-          break
         case 5:
           return `rotateX(90deg) translateZ(${this.cTranslateZ})`
-          break
       }
     }
   }

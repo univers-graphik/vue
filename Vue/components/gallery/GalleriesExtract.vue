@@ -1,14 +1,14 @@
 <template>
   <ul :class="{ [theme]: theme }"
-    class="galleriesExtract">
+      class="galleriesExtract">
     <li v-for="(item, index) in items"
         :key="`${index}-image-extract`"
         class="galleriesExtract__item">
       <!-- Link -->
       <router-link
-        :to="{ name: $enums.pages.GALLERY, params: { lang: $store.state.parameters.urlLang, slug: item.slug, id: item.id } }"
+        :to="{ name: $enums.pages.GALLERY, params: { lang: cCurrentLanguage, seo: cSeo, slug: item.slug, id: item.id } }"
         class="galleriesExtract__link"
-        @click.native="resetNavmain">
+        @click.native="refreshNavmain">
 
         <!-- Image -->
         <img :src="item.file_name"
@@ -38,45 +38,48 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .galleriesExtract {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+$galleriesExtract: '.galleriesExtract';
 
-  .sidebar {
-    &.galleriesExtract {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+#{$galleriesExtract} {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-      .galleriesExtract {
-        &__item {
-          margin: 8px 0 0;
-          width: calc(50% - 4px);
-          display: inline-block;
-          overflow: hidden;
+.sidebar {
+  &#{$galleriesExtract} {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-          &:nth-child(1),
-          &:nth-child(2) {
-            margin-top: 0;
-          }
+    #{$galleriesExtract} {
+      &__item {
+        margin: 8px 0 0;
+        width: calc(50% - 4px);
+        display: inline-block;
+        overflow: hidden;
+
+        &:nth-child(1),
+        &:nth-child(2) {
+          margin-top: 0;
         }
+      }
 
-        &__image {
-          vertical-align: middle;
-          transform-origin: center;
-          transition: transform .5s ease;
-        }
+      &__image {
+        vertical-align: middle;
+        transform-origin: center;
+        transition: transform .5s ease;
+      }
 
-        &__link {
-          &:hover {
-            .galleriesExtract__image {
-              transform: scale(1.4);
-            }
+      &__link {
+        &:hover,
+        &:focus {
+          #{$galleriesExtract}__image {
+            transform: scale(1.4);
           }
         }
       }
     }
   }
+}
 </style>

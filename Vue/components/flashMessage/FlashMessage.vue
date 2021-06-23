@@ -91,10 +91,10 @@ export default {
 
 <style scoped lang="scss">
 .containerFlashMessage {
-  top: $headerHeight + 20;
+  top: $headerHeight + rem(20);
   box-shadow: none;
   @media #{$isMobile} {
-    top: $headerHeightMobile + 20;
+    top: $headerHeightMobile + rem(20);
   }
 }
 </style>

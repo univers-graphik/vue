@@ -1,6 +1,8 @@
 import endpoints from '@Declarations/endpoints'
 import Request from '@Class/Request'
 
+const request = new Request({})
+
 export default {
   /**
    * Send form data
@@ -22,7 +24,7 @@ export default {
     formData.append('message', model.message)
     formData.append('emailingRegistration', model.emailingRegistration)
 
-    return Request
+    return request
       .post(endpoints.CONTACT_FORM, formData)
   }
 }

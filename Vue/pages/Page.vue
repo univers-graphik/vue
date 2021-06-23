@@ -3,74 +3,104 @@
     <!-- Page content -->
     <template v-if="type !== $enums.pages.HOMEPAGE">
       <!-- Meta -->
-      <Meta :title="title || $enums.config.SOCIETY_SITE"
-            :url="slug || $pagesUrl[$i18n.locale].default"/>
+      <meta-manager :title="title || $enums.config.SOCIETY_SITE"
+                    :url="slug || $pagesUrl[$i18n.locale].default"/>
 
       <!-- Panoramic -->
-      <Panoramic :type="$enums.panoramics.PAGE_TYPE"
-                 :id="$route.params.id"
-                 :key="`${$route.params.id}-panoramic`"/>
+      <panoramic-image :type="$enums.panoramics.PAGE_TYPE"
+                       :id="id"
+                       :key="`${id}-panoramic`"/>
     </template>
     <!-- Homepage -->
     <template v-else>
       <!-- Meta -->
-      <Meta :title="$t('pages.title.homePage')"/>
+      <meta-manager :title="$t('pages.title.homePage')"/>
 
       <!-- Slideshow -->
-      <GalleryHomepage v-if="$store.state.galleryHomepage.loaded"/>
+      <homepage-gallery v-if="$store.state.galleryHomepage.loaded"/>
     </template>
 
     <!-- Main container -->
     <div class="mainContainer mainContainer--spacerTB containerFloatingCol">
-      <!-- Informations -->
-      <StaticSidebar/>
+      <!-- Sidebar modules -->
+      <sidebar-modules v-if="!$enums.breakpoints.TABLET_PORTRAIT"
+                       class="is-noTabletPortrait"/>
 
       <!-- Content -->
-      <div class="containerType1 floatingCol--large">
-        <transition name="vueFadeEffectContent"
-                    mode="out-in">
-          <!-- Loader -->
-          <Loader v-if="loading"/>
+      <div class="floatingCol--large">
+        <!-- Page content -->
+        <main class="containerType1"
+              role="main">
+          <transition name="vueFadeEffectContent"
+                      mode="out-in">
+            <!-- Loader -->
+            <loader-bounce v-if="loading"/>
 
-          <!-- Content page -->
-          <section v-else>
-            <h1 v-if="status === $enums.statusCode.NO_CONTENT"
-                class="titleType3 is-margin-0">{{ $t('common.noDataPage') }} !</h1>
+            <section v-else>
+              <!-- Focus element for skip link -->
+              <focus-to-content/>
 
-            <template v-else>
               <!-- Main title -->
-              <h1 class="titleType1">{{ title }}</h1>
+              <h1 v-if="status === $enums.statusCode.NO_CONTENT"
+                  class="titleType3 is-margin-0"
+                  data-focus-title>{{ $t('common.noDataPage') }} !</h1>
+              <template v-else>
+                <!-- Main title -->
+                <h1 class="titleType1"
+                    data-focus-title>{{ title }}</h1>
 
-              <!-- Gallery -->
-              <GalleryPage v-if="loaderGallery"
-                           :id="cIdPage"
-                           :key="`${cIdPage}-gallery`"
-                           class="is-marginBottom-20"/>
+                <!-- Gallery -->
+                <page-gallery v-if="galleryLoading"
+                              :id="cPageId"
+                              :key="`${cPageId}-gallery`"
+                              class="is-marginBottom-20"/>
 
-              <!-- Content -->
-              <div v-html="content"
-                   class="textEditor textEditor--main"
-                   ref="textEditor"></div>
-            </template>
-          </section>
-          <!-- / Content page -->
-        </transition>
+                <!-- Content -->
+                <div v-html="content"
+                     class="textEditor textEditor--main"
+                     ref="textEditor"></div>
+              </template>
+            </section>
+          </transition>
+        </main>
+        <!-- / Page content -->
 
-        <!-- News star -->
-        <template v-if="type === $enums.pages.HOMEPAGE && $enums.config.NEWS && itemsNews.length">
-          <h2 class="titleType2 is-marginTop-20 is-marginBottom-10">{{ $t('common.newsStar') }}</h2>
-          <div class="newsList">
-            <ItemNews v-for="(item, index) in itemsNews"
-                      :key="`${index}-news`"
-                      :item="item"/>
+        <!-- Lead news -->
+        <div v-if="$enums.config.NEWS && type === $enums.pages.HOMEPAGE && newsItems.length"
+             class="containerType1 is-marginTop-20">
+          <!-- Sub title -->
+          <h2 class="titleType2 is-marginTop-0 is-marginBottom-10">{{ $t('common.leadNews') }}</h2>
+
+          <!-- Loader -->
+          <div v-if="newsLoading"
+               class="loaderCircular loaderCircular--center"></div>
+
+          <!-- Items -->
+          <div v-else
+               class="listType4">
+            <paris-card v-for="(item, index) in newsItems"
+                        :key="`${index}-news`"
+                        :page="$enums.pages.NEWS"
+                        :slug="item.slug"
+                        :id="item.id"
+                        :title="item.title"
+                        :additional-data="{
+                              file_name: item.file_name,
+                              video: item.video,
+                              tag: item.tag,
+                              publication_date: item.publication_date,
+                              comment: item.comment
+                            }"
+                        class="listType4__item"/>
           </div>
-        </template>
-        <!-- / News star -->
+          <!-- / Items -->
+        </div>
+        <!-- / Lead news -->
       </div>
       <!-- / Content -->
 
       <!-- SideBar -->
-      <Sidebar :target="`${$enums.pages.PAGE}-${cIdPage}`"/>
+      <sidebar-element :target="`${$enums.pages.PAGE}-${cPageId}`"/>
     </div>
     <!-- / Main container -->
   </div>
@@ -80,18 +110,23 @@
 import pageContentServices from '@Services/pageContentServices'
 import newsServices from '@Services/newsServices'
 import Prism from 'prismjs'
-import Meta from '@Components/meta/Meta'
-import Panoramic from '@Components/panoramic/Panoramic'
-import GalleryHomepage from '@Components/gallery/GalleryHomepage'
-import GalleryPage from '@Components/gallery/GalleryPage'
-import Loader from '@Components/helpers/loader/Loader'
-import StaticSidebar from '@Components/sidebar/StaticSidebar'
-import Sidebar from '@Components/sidebar/Sidebar'
-import ItemNews from '@Components/news/Item'
+import MetaManager from '@Components/meta/MetaManager'
+import PanoramicImage from '@Components/panoramic/PanoramicImage'
+import HomepageGallery from '@Components/gallery/HomepageGallery'
+import PageGallery from '@Components/gallery/PageGallery'
+import LoaderBounce from '@Components/helpers/loader/LoaderBounce'
+import SidebarModules from '@Components/sidebar/SidebarModules'
+import SidebarElement from '@Components/sidebar/SidebarElement'
+import ParisCard from '@Components/cards/ParisCard'
+import FocusToContent from '@Components/accessibility/FocusToContent'
 
 export default {
   name: 'Page',
   props: {
+    id: {
+      type: [Number, String],
+      required: false
+    },
     type: {
       type: String,
       required: false
@@ -100,67 +135,61 @@ export default {
   data () {
     return {
       loading: false,
+      newsLoading: false,
+      galleryLoading: false,
       status: null,
       title: '',
       content: '',
       slug: '',
-      loaderGallery: false,
-      itemsNews: []
+      newsItems: []
     }
   },
   components: {
-    Meta,
-    Panoramic,
-    GalleryHomepage,
-    GalleryPage,
-    Loader,
-    StaticSidebar,
-    Sidebar,
-    ItemNews
+    MetaManager,
+    PanoramicImage,
+    HomepageGallery,
+    PageGallery,
+    LoaderBounce,
+    SidebarModules,
+    SidebarElement,
+    ParisCard,
+    FocusToContent
   },
   computed: {
     /**
-     * Current lang url
+     * Page id
      * @returns {string}
      */
-    cLangActive () {
-      return this.$store.state.parameters.urlLang
-    },
-    /**
-     * Id page
-     * @returns {string}
-     */
-    cIdPage () {
-      return this.type !== this.$enums.pages.HOMEPAGE ? this.$route.params.id : this.$enums.pages.HOMEPAGE_ID
+    cPageId () {
+      return this.type !== this.$enums.pages.HOMEPAGE ? this.id : this.$enums.pages.HOMEPAGE_ID
     }
   },
   watch: {
-    cLangActive (newVal, oldVal) {
+    cCurrentLanguage (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.loadData(this.cLangActive)
-        // Data news star
-        if (this.type === this.$enums.pages.HOMEPAGE && this.$enums.config.NEWS) {
-          this.loadDataNewsStar(this.cLangActive)
+        this.fetchDataPage(this.cCurrentLanguage)
+        // Lead news data
+        if (this.$enums.config.NEWS && this.type === this.$enums.pages.HOMEPAGE) {
+          this.fetchDataNewslead(this.cCurrentLanguage)
         }
       }
     },
-    '$route.params.id' (newVal, oldVal) {
+    id (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.loadData(this.cLangActive)
+        this.fetchDataPage(this.cCurrentLanguage)
       }
     }
   },
   methods: {
     /**
-     * Load data page content
+     * Fetch data page content
      * @param {string} lang
      */
-    loadData (lang) {
+    fetchDataPage (lang) {
       this.loading = true
-
       pageContentServices.get({
         lang: lang,
-        id: this.cIdPage
+        id: this.cPageId
       })
         .then((response) => {
           this.status = response.status
@@ -172,7 +201,7 @@ export default {
           if (data.slug) this.slug = data.slug
 
           // Gallery
-          if (data.gallery && data.publication_gallery) this.loaderGallery = true
+          if (data.gallery && data.publication_gallery) this.galleryLoading = true
 
           setTimeout(() => {
             // Add class pre tag
@@ -195,20 +224,26 @@ export default {
           // Redirect to 404
           this.$router.push({ name: this.$enums.pages.ERROR_404 })
         })
-        .finally(() => this.loading = false)
+        .finally(() => {
+          this.loading = false
+        })
     },
     /**
-     * Load data news star
+     * Fetch data news lead
      * @param {string} lang
      */
-    loadDataNewsStar (lang) {
-      newsServices.getNewsStar(lang)
+    fetchDataNewslead (lang) {
+      this.newsLoading = true
+      newsServices.getLeadNews(lang)
         .then((response) => {
           const data = response.data.data
-          if (data.items) this.itemsNews = data.items
+          if (data.items) this.newsItems = data.items
         })
         .catch((error) => {
           if (process.env.DEBUG) console.log(error.response)
+        })
+        .finally(() => {
+          this.newsLoading = false
         })
     }
   },
@@ -220,23 +255,15 @@ export default {
           if (process.env.DEBUG) console.log(error.response)
         })
     }
-
   },
   mounted () {
-    // Data content page
-    this.loadData(this.cLangActive)
+    // Fetch data content page
+    this.fetchDataPage(this.cCurrentLanguage)
 
-    // Data news star
-    if (this.type === this.$enums.pages.HOMEPAGE && this.$enums.config.NEWS) {
-      this.loadDataNewsStar(this.cLangActive)
+    // Data news lead
+    if (this.$enums.config.NEWS && this.type === this.$enums.pages.HOMEPAGE) {
+      this.fetchDataNewslead(this.cCurrentLanguage)
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-.newsList {
-  display: flex;
-  flex-wrap: wrap;
-}
-</style>

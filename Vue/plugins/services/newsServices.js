@@ -1,6 +1,8 @@
 import endpoints from '@Declarations/endpoints'
 import Request from '@Class/Request'
 
+const request = new Request({})
+
 export default {
   /**
    * Get data news list
@@ -9,7 +11,7 @@ export default {
    * @returns {Promise<T | never>}
    */
   getNewsList ({ lang, page }) {
-    return Request
+    return request
       .get(endpoints.NEWS_LIST.replace('{{lang}}', lang).replace('{{page}}', page))
       .then((response) => {
         return response
@@ -22,20 +24,20 @@ export default {
    * @returns {Promise<T | never>}
    */
   getNews ({ lang, id }) {
-    return Request
+    return request
       .get(endpoints.NEWS.replace('{{lang}}', lang).replace('{{id}}', id))
       .then((response) => {
         return response
       })
   },
   /**
-   * Get data news star list
+   * Get data lead news
    * @param {string} lang
    * @returns {Promise<T | never>}
    */
-  getNewsStar (lang) {
-    return Request
-      .get(endpoints.NEWS_STAR.replace('{{lang}}', lang))
+  getLeadNews (lang) {
+    return request
+      .get(endpoints.LEAD_NEWS.replace('{{lang}}', lang))
       .then((response) => {
         return response
       })
@@ -47,7 +49,7 @@ export default {
    * @returns {Promise<T | never>}
    */
   getNewsPagination ({ lang, id }) {
-    return Request
+    return request
       .get(endpoints.NEWS_PAGINATION.replace('{{lang}}', lang).replace('{{id}}', id))
       .then((response) => {
         return response

@@ -6,6 +6,9 @@ import { i18n, loadLanguageAsync } from '@Plugins/i18n'
 
 Vue.use(VueRouter)
 
+const langArray = process.env.LANG.split('|')
+const langCompleteArray = process.env.LANG_COMPLETE.split('|')
+
 const router = new VueRouter({
   mode: 'history',
   linkExactActiveClass: enums.config.IS_CURRENT,
@@ -17,7 +20,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/' + enums.pages.ERROR_404,
+      path: `/${enums.pages.ERROR_404}`,
       name: enums.pages.ERROR_404,
       component: () => import(/* webpackChunkName: "error-404" */ '@Pages/Error404'),
       beforeEnter (to, from, next) {
@@ -42,8 +45,9 @@ const router = new VueRouter({
           }
         },
         {
-          path: process.env.SEO_URL + '/page-:slug(' + enums.regex.URL_VALIDATOR + ')/:id(' + enums.regex.INTEGER_VALIDATOR + ')',
+          path: `:seo(${enums.regex.LETTER_VALIDATOR})?/page-:slug(${enums.regex.URL_VALIDATOR})/:id(${enums.regex.INTEGER_VALIDATOR})`,
           name: enums.pages.PAGE,
+          props: true,
           component: () => import(/* webpackChunkName: "page" */ '@Pages/Page'),
           beforeEnter (to, from, next) {
             store.commit('route/setCurrent', enums.pages.PAGE)
@@ -51,7 +55,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: process.env.SEO_URL + '/contact-:slug(' + enums.regex.LETTER_VALIDATOR + ')',
+          path: `:seo(${enums.regex.LETTER_VALIDATOR})?/contact-:slug(${enums.regex.LETTER_VALIDATOR})`,
           name: enums.pages.CONTACT,
           component: () => import(/* webpackChunkName: "contact" */ '@Pages/Contact'),
           beforeEnter (to, from, next) {
@@ -60,7 +64,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: process.env.SEO_URL + '/:slug(' + enums.regex.LETTER_VALIDATOR + ')-cgu',
+          path: `:seo(${enums.regex.LETTER_VALIDATOR})?/:slug(${enums.regex.LETTER_VALIDATOR})-cgu`,
           name: enums.pages.LEGAL_NOTICE,
           component: () => import(/* webpackChunkName: "legal-notice" */ '@Pages/LegalNotice'),
           beforeEnter (to, from, next) {
@@ -69,7 +73,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: process.env.SEO_URL + '/:slug(' + enums.regex.LETTER_VALIDATOR + ')-liste/page=:page(' + enums.regex.INTEGER_VALIDATOR + ')',
+          path: `:seo(${enums.regex.LETTER_VALIDATOR})?/:slug(${enums.regex.LETTER_VALIDATOR})-liste/page=:page(${enums.regex.INTEGER_VALIDATOR})`,
           name: enums.pages.NEWS_LIST,
           component: () => import(/* webpackChunkName: "news-list" */ '@Pages/NewsList'),
           beforeEnter (to, from, next) {
@@ -82,8 +86,9 @@ const router = new VueRouter({
           }
         },
         {
-          path: process.env.SEO_URL + '/article-:slug(' + enums.regex.URL_VALIDATOR + ')/:id(' + enums.regex.INTEGER_VALIDATOR + ')',
+          path: `:seo(${enums.regex.LETTER_VALIDATOR})?/article-:slug(${enums.regex.URL_VALIDATOR})/:id(${enums.regex.INTEGER_VALIDATOR})`,
           name: enums.pages.NEWS,
+          props: true,
           component: () => import(/* webpackChunkName: "news" */ '@Pages/News'),
           beforeEnter (to, from, next) {
             if (process.env.NEWS) {
@@ -95,7 +100,7 @@ const router = new VueRouter({
           }
         },
         {
-          path: process.env.SEO_URL + '/:slug(' + enums.regex.LETTER_VALIDATOR + ')-images/page=:page(' + enums.regex.INTEGER_VALIDATOR + ')',
+          path: `:seo(${enums.regex.LETTER_VALIDATOR})?/:slug(${enums.regex.LETTER_VALIDATOR})-images/page=:page(${enums.regex.INTEGER_VALIDATOR})`,
           name: enums.pages.GALLERIES,
           component: () => import(/* webpackChunkName: "galleries" */ '@Pages/Galleries'),
           beforeEnter (to, from, next) {
@@ -108,8 +113,9 @@ const router = new VueRouter({
           }
         },
         {
-          path: process.env.SEO_URL + '/galerie-:slug(' + enums.regex.URL_VALIDATOR + ')/:id(' + enums.regex.INTEGER_VALIDATOR + ')',
+          path: `:seo(${enums.regex.LETTER_VALIDATOR})?/galerie-:slug(${enums.regex.URL_VALIDATOR})/:id(${enums.regex.INTEGER_VALIDATOR})`,
           name: enums.pages.GALLERY,
+          props: true,
           component: () => import(/* webpackChunkName: "gallery" */ '@Pages/Gallery'),
           beforeEnter (to, from, next) {
             if (process.env.GALLERY) {
@@ -156,7 +162,19 @@ router.beforeEach((to, from, next) => {
   // Close navmain when new page loaded
   if (store.state.parameters.openNavmain) {
     store.commit('parameters/setOpenNavmain', false)
-    document.documentElement.removeAttribute('style')
+  }
+
+  // Verify param lang in url
+  const language = to.params.lang
+  if (language && language !== i18n.locale.substring(0, 2)) {
+    // Test if valid language
+    if (langArray.includes(language)) {
+      // Update
+      const newLanguage = langCompleteArray[langArray.indexOf(language)]
+      i18n.locale = newLanguage
+      localStorage.setItem('i18n', newLanguage)
+      store.commit('parameters/setUrlLang', language)
+    }
   }
 
   // If the language is not translated, the default language is used

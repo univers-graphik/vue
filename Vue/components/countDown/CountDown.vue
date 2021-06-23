@@ -10,7 +10,9 @@
     <svg :viewBox="`0 0 ${position * 2} ${position * 2}`"
          xmlns="http://www.w3.org/2000/svg"
          class="progress"
-         preserveAspectRatio="xMinYMin meet">
+         preserveAspectRatio="xMinYMin meet"
+         aria-hidden="true"
+         focusable="false">
       <circle :cx="position"
               :cy="position"
               :r="radius"
@@ -30,6 +32,8 @@
       <svg xmlns="http://www.w3.org/2000/svg"
            viewBox="0 0 58.6 53.9"
            class="hourMarkers"
+           aria-hidden="true"
+           focusable="false"
            ref="hourMarkers">
         <circle cx="29.2"
                 cy="6"

@@ -3,6 +3,8 @@ import Request from '@Class/Request'
 import config from '@Declarations/config'
 import pages from '@Declarations/pages'
 
+const request = new Request({})
+
 export default {
   namespaced: true,
   state: {
@@ -29,7 +31,7 @@ export default {
      * @returns {Promise<T | never>}
      */
     get (context, lang) {
-      return Request
+      return request
         .get(endpoints.NAVMAIN.replace('{{lang}}', lang))
         .then((response) => {
           const data = response.data.data.items

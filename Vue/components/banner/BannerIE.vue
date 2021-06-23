@@ -13,8 +13,8 @@
       <!-- Browsers list -->
       <p class="is-marginTop-5 is-marginBottom-0">
         <a class="flashMessage__link"
-           href="http://windows.microsoft.com/fr-fr/internet-explorer/ie-11-worldwide-languages"
-           target="_blank">Internet Explorer 11</a>,
+           href="https://www.microsoft.com/fr-fr/edge"
+           target="_blank">Microsoft Edge</a>,
         <a class="flashMessage__link"
            href="https://www.mozilla.org/fr/firefox/new/"
            target="_blank">Firefox</a>,
@@ -25,12 +25,14 @@
            href="https://www.apple.com/fr/safari/"
            target="_blank">Safari</a>
       </p>
+      <!-- / Browsers list -->
 
       <!-- Close -->
       <button class="flashMessage__close"
               type="button"
               @click="isVisible = !isVisible">&times;
       </button>
+      <!-- / Close -->
     </div>
   </transition>
 </template>
@@ -48,7 +50,7 @@ export default {
     return {
       isVisible: true
     }
-  },
+  }
 }
 </script>
 

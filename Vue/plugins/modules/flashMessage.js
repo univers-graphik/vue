@@ -51,7 +51,9 @@ export default {
     },
     error ({ commit, state }, data) {
       if (!state.error.length || state.error[state.error.length - 1] !== data.msg) {
-        commit('addError', data)
+        // Test if just one reload page info
+        if (!state.error.find(key => key.reloadButton === true)) commit('addError', data)
+
         if (!data.reloadButton) {
           setTimeout(() => {
             commit('removeError')

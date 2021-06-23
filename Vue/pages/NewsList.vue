@@ -1,63 +1,62 @@
 <template>
   <div class="customization">
     <!-- Meta -->
-    <Meta :title="`${$t('pages.title.newsList')} - ${$enums.config.SOCIETY_SITE}`"
-          :url="$pagesUrl[$i18n.locale].newsList"/>
+    <meta-manager :title="`${$t('pages.title.newsList')} - ${$enums.config.SOCIETY_SITE}`"
+                  :url="$pagesUrl[$i18n.locale].newsList"/>
 
     <!-- Panoramic -->
-    <Panoramic :type="$enums.panoramics.COMMON_TYPE"
-               :id="$enums.panoramics.NEWS_ID"/>
+    <panoramic-image :type="$enums.panoramics.COMMON_TYPE"
+                     :id="$enums.panoramics.NEWS_ID"/>
 
     <!-- Main container -->
     <div class="mainContainer mainContainer--spacerTB containerFloatingCol">
-      <!-- Informations -->
-      <StaticSidebar/>
+      <!-- Sidebar modules -->
+      <sidebar-modules v-if="!$enums.breakpoints.TABLET_PORTRAIT"
+                       class="is-noTabletPortrait"/>
 
       <!-- Main content -->
-      <div class="containerType1 floatingCol--large">
+      <main class="containerType1 floatingCol--large"
+            role="main">
+        <!-- Focus element for skip link -->
+        <focus-to-content/>
+
         <!-- Main title -->
-        <h1 class="titleType1">{{ $t('pages.title.newsList') }}</h1>
+        <h1 :id="anchor"
+            class="titleType1 is-marginBottom-10"
+            data-focus-title>{{ $t('pages.title.newsList') }}</h1>
 
         <transition name="vueFadeEffectContent"
                     mode="out-in">
           <!-- Loader -->
-          <Loader v-if="loading"/>
+          <loader-bounce v-if="loading"/>
 
-          <div v-else
-               :id="anchor">
+          <div v-else>
             <template v-if="items.length">
               <!-- News -->
-              <div class="newsList">
-                <Item v-for="(item, index) in items"
-                      :key="`${index}-news`"
-                      :item="item"/>
+              <div class="listType4">
+                <paris-card v-for="(item, index) in items"
+                            :key="`${index}-news`"
+                            :page="$enums.pages.NEWS"
+                            :slug="item.slug"
+                            :id="item.id"
+                            :title="item.title"
+                            :additional-data="{
+                              file_name: item.file_name,
+                              video: item.video,
+                              tag: item.tag,
+                              publication_date: item.publication_date,
+                              comment: item.comment
+                            }"
+                            class="listType4__item"/>
               </div>
               <!-- / News -->
 
               <!-- Pagination -->
-              <sliding-pagination v-if="totalPages > 1"
-                                  :current="currentPage"
-                                  :total="totalPages"
-                                  :nonSlidingSize=7
-                                  :ariaGotoPageLabel="$t('pagination.goTo', { page: '%page% ', total: '%total%' })"
-                                  :ariaPreviousPageLabel="$t('pagination.prev')"
-                                  :ariaNextPageLabel="$t('pagination.next')"
-                                  :ariaCurrentPageLabel="$t('pagination.current', { page: '%page% ', total: '%total%' })"
-                                  class="is-marginTop-20"
-                                  @page-change="pageChangeHandler">
-                <template v-slot:previous-page>
-                  <span class="c-sliding-pagination__nav">&laquo;</span>
-                </template>
-                <template v-slot:gap-left>
-                  <span class="c-sliding-pagination__gap">...</span>
-                </template>
-                <template v-slot:gap-right>
-                  <span class="c-sliding-pagination__gap">...</span>
-                </template>
-                <template v-slot:next-page>
-                  <span class="c-sliding-pagination__nav">&raquo;</span>
-                </template>
-              </sliding-pagination>
+              <pagination v-if="totalPages > 1"
+                          :current-page="currentPage"
+                          :total-pages="totalPages"
+                          class="is-marginTop-20"
+                          @selected-page="pageChangeHandler"/>
               <!-- / Pagination -->
             </template>
             <!-- No result -->
@@ -65,11 +64,11 @@
                class="titleType3 is-margin-0">{{ $t('common.noDataPage') }} !</p>
           </div>
         </transition>
-      </div>
+      </main>
       <!-- / Main content -->
 
       <!-- SideBar -->
-      <Sidebar :target="$enums.pages.NEWS"/>
+      <sidebar-element :target="$enums.pages.NEWS"/>
     </div>
     <!-- / Main container -->
   </div>
@@ -77,20 +76,20 @@
 
 <script>
 import newsServices from '@Services/newsServices'
-import Meta from '@Components/meta/Meta'
-import Panoramic from '@Components/panoramic/Panoramic'
-import Loader from '@Components/helpers/loader/Loader'
-import StaticSidebar from '@Components/sidebar/StaticSidebar'
-import Sidebar from '@Components/sidebar/Sidebar'
-import SlidingPagination from 'vue-sliding-pagination'
-import Item from '@Components/news/Item'
+import MetaManager from '@Components/meta/MetaManager'
+import PanoramicImage from '@Components/panoramic/PanoramicImage'
+import LoaderBounce from '@Components/helpers/loader/LoaderBounce'
+import SidebarModules from '@Components/sidebar/SidebarModules'
+import SidebarElement from '@Components/sidebar/SidebarElement'
+import Pagination from '@Components/pagination/Pagination'
+import ParisCard from '@Components/cards/ParisCard'
+import FocusToContent from '@Components/accessibility/FocusToContent'
 
 export default {
   name: 'NewsList',
   data () {
     return {
       loading: false,
-      count: 0,
       currentPage: this.$route.params.page ? parseInt(this.$route.params.page, 10) : 1,
       totalPages: 0,
       items: [],
@@ -98,36 +97,28 @@ export default {
     }
   },
   components: {
-    Meta,
-    Panoramic,
-    Loader,
-    StaticSidebar,
-    Sidebar,
-    SlidingPagination,
-    Item
-  },
-  computed: {
-    /**
-     * Current lang url
-     * @returns {string}
-     */
-    cLangActive () {
-      return this.$store.state.parameters.urlLang
-    }
+    MetaManager,
+    PanoramicImage,
+    LoaderBounce,
+    SidebarModules,
+    SidebarElement,
+    Pagination,
+    ParisCard,
+    FocusToContent
   },
   watch: {
-    cLangActive (newVal, oldVal) {
+    cCurrentLanguage (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.loadData(this.$store.state.parameters.urlLang)
+        this.fetchDataNewsList(this.$store.state.parameters.urlLang)
       }
     }
   },
   methods: {
     /**
-     * Load data
+     * Fetch data
      * @param {string} lang
      */
-    loadData (lang) {
+    fetchDataNewsList (lang) {
       this.loading = true
       newsServices.getNewsList({
         lang: lang,
@@ -135,7 +126,6 @@ export default {
       })
         .then((response) => {
           const data = response.data.data
-          this.count = data.count
           this.totalPages = data.totalPages
           if (data.items) this.items = data.items
         })
@@ -144,45 +134,25 @@ export default {
           // Redirect to 404
           this.$router.push({ name: this.$enums.pages.ERROR_404 })
         })
-        .finally(() => this.loading = false)
+        .finally(() => {
+          this.loading = false
+        })
     },
     /**
      * Pagination
      * @param {number} selectedPage
      */
     pageChangeHandler (selectedPage) {
-      if ([this.currentPage, 0, this.totalPages + 1].indexOf(selectedPage) !== -1) return
-
       this.currentPage = selectedPage
-
       // Hydrate data
-      this.loadData(this.cLangActive)
-
+      this.fetchDataNewsList(this.cCurrentLanguage)
       // Scroll to
-      this.$scrollTo(`#${this.anchor}`, 500, {
-        offset: -(this.$store.state.parameters.headerHeight + 60)
-      })
-
-      // Update URL
-      setTimeout(() => {
-        this.$router.replace({
-          params: {
-            page: selectedPage
-          }
-        })
-      }, 100)
+      this.$scrollTo(`#${this.anchor}`)
     }
   },
   mounted () {
     // Hydrate data
-    this.loadData(this.cLangActive)
+    this.fetchDataNewsList(this.cCurrentLanguage)
   }
 }
 </script>
-
-<style scoped lang="scss">
-  .newsList {
-    display: flex;
-    flex-wrap: wrap;
-  }
-</style>

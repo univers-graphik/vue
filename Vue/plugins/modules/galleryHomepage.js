@@ -2,6 +2,8 @@ import endpoints from '@Declarations/endpoints'
 import Request from '@Class/Request'
 import Modernizr from 'modernizr'
 
+const request = new Request({})
+
 export default {
   namespaced: true,
   state: {
@@ -48,7 +50,7 @@ export default {
      * @returns {Promise<T | never>}
      */
     get (context) {
-      return Request
+      return request
         .get(endpoints.GALLERY_HOMEPAGE)
         .then((response) => {
           // Save data

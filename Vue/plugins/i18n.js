@@ -33,7 +33,7 @@ export const i18n = new VueI18n({
         hour: 'numeric',
         minute: 'numeric'
       },
-      newsList: {
+      news: {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
@@ -55,7 +55,7 @@ export const i18n = new VueI18n({
         hour: 'numeric',
         minute: 'numeric'
       },
-      newsList: {
+      news: {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',

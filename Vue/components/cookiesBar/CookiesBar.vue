@@ -19,8 +19,9 @@
       </div>
       <p class="cookiesBar__text">
         <router-link
-          :to="{ name: $enums.pages.LEGAL_NOTICE, params: { lang: $store.state.parameters.urlLang, slug: $pagesUrl[$i18n.locale].legalNotice }, hash: `#${$enums.anchor.COOKIES}` }"
-          class="cookiesBar__link">
+          :to="{ name: $enums.pages.LEGAL_NOTICE, params: { lang: cCurrentLanguage, seo: cSeo, slug: $pagesUrl[$i18n.locale].legalNotice }, hash: `#${$enums.anchor.COOKIES}` }"
+          class="cookiesBar__link"
+          @click.native="refreshNavmain">
           {{ $t('cookies.link') }}
         </router-link>
         <button class="button cookiesBar__button"
@@ -63,77 +64,85 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .cookiesBar {
-    padding: 15px;
-    max-width: 400px;
-    position: fixed;
-    left: 30px;
-    bottom: 30px;
-    z-index: $zIndex + 20;
-    border-radius: 4px;
-    background-color: White;
-    box-shadow: 0 0 10px rgba(Black, .5);
-    @media #{$isMobile} {
-      max-width: 100%;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 0;
-    }
+$cookiesBar: '.cookiesBar';
 
-    &__title {
-      margin-top: 0;
-      margin-bottom: 5px;
-      font-family: $robotoBold;
-    }
+#{$cookiesBar} {
+  $spacing: 30px;
 
-    &__text {
-      font-size: 13px;
-    }
+  padding: rem(15);
+  max-width: 400px;
+  max-height: calc(100vh - #{$spacing});
+  position: fixed;
+  left: $spacing;
+  bottom: $spacing;
+  z-index: $zIndex + 20;
+  overflow: {
+    x: hidden;
+    y: auto;
+  }
+  border-radius: 4px;
+  background-color: White;
+  box-shadow: 0 0 10px rgba(Black, .5);
+  @media #{$isMobile} {
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+  }
 
-    &__content {
-      margin-bottom: 20px;
-      display: flex;
+  &__title {
+    margin-top: 0;
+    margin-bottom: rem(5);
+    font-family: $robotoBold;
+  }
 
-      .cookiesBar__text {
-        width: 60%;
-        font-size: 13px;
-        @media #{$isMobile} {
-          width: 100%;
-        }
-      }
+  &__text {
+    font-size: rem(15);
+  }
 
-      .cookiesBar__img {
-        margin-left: 20px;
-        width: 40%;
-        @media #{$isMobile} {
-          display: none;
-        }
-      }
-    }
+  &__content {
+    margin-bottom: rem(20);
+    display: flex;
 
-    &__link {
-      margin-top: 5px;
-      display: inline-block;
-      color: $mainColor;
-
-      &:hover {
-        color: Peru;
-        text-decoration: none;
+    #{$cookiesBar}__text {
+      width: 60%;
+      @media #{$isMobile} {
+        width: 100%;
       }
     }
 
-    &__button {
-      height: 26px;
-      float: right;
-      border-radius: 2px;
-      background-color: MediumSeaGreen;
-      color: White;
-      transition: background-color .5s ease;
-
-      &:hover {
-        background-color: Peru;
+    #{$cookiesBar}__img {
+      margin-left: rem(20);
+      width: 40%;
+      @media #{$isMobile} {
+        display: none;
       }
     }
   }
+
+  &__link {
+    margin: rem(5) 0;
+    display: inline-block;
+    color: $mainColor;
+
+    &:hover {
+      color: Peru;
+      text-decoration: none;
+    }
+  }
+
+  &__button {
+    height: rem(36);
+    float: right;
+    border-radius: 2px;
+    background-color: MediumSeaGreen;
+    color: White;
+    transition: background-color .5s ease;
+
+    &:hover {
+      background-color: Peru;
+    }
+  }
+}
 </style>

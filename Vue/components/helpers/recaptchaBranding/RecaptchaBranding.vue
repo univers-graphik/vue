@@ -30,22 +30,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .recaptchaBranding {
-    font-size: 12px;
-    text-align: left;
+.recaptchaBranding {
+  font-size: rem(13);
+  text-align: left;
 
-    &__link {
-      color: $mainColor;
+  &__link {
+    color: $mainColor;
 
-      &:hover {
-        text-decoration: none;
-      }
-    }
-
-    &--light {
-      .recaptchaBranding__link {
-        color: White;
-      }
+    &:hover {
+      text-decoration: none;
     }
   }
+
+  &--light {
+    .recaptchaBranding__link {
+      color: White;
+    }
+  }
+}
 </style>

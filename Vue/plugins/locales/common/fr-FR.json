@@ -18,31 +18,37 @@
       "fax": "fax",
       "fixed_phone": "téléphone fixe",
       "send": "Envoyer",
-      "sendMessage": "Envoyer un message",
+      "sendMessage": "Envoyer un message | Envoyer votre message",
       "sendEmail": "Envoyer un e-mail",
       "contactUs": "Nous contacter",
       "informations": "Informations",
       "websiteCreation": "Création de sites internet",
       "importantSiteNotices": "Les mentions importantes du site",
       "followUs": "Suivez-nous",
-      "followFacebook": "Retrouvez nous sur Facebook",
       "followTwitter": "Suivez nous sur Twitter",
+      "followFacebook": "Retrouvez nous sur Facebook",
+      "followLinkedin": "Nous sommes sur Linkedin",
+      "followPinterest": "Retrouvez nous sur Pinterest",
       "requiredFields": "Champs requis",
       "search": "Rechercher",
+      "enterYourSearch": "Saisissez votre recherche",
       "login": "Me connecter",
       "cart": "Mon panier",
       "galleries": "Photothèque",
       "pictures": "Photos",
       "noResults": "Aucun résultat trouvé",
-      "newsStar": "Articles à ne pas rater",
+      "leadNews": "Articles à ne pas rater",
       "by": "par | Par",
-      "published": "Publié le"
+      "published": "Publié le",
+      "updated": "Mis à jour le",
+      "readMore": "En savoir plus",
+      "mainMenu": "menu principal"
     },
     "validate": {
       "message": {
         "required": "Ce champ est obligatoire",
         "email": "Merci de saisir une adresse e-mail valide",
-        "generalError": "Le formulaire contient 1 erreur ! | Le formulaire contient {count} erreurs !"
+        "generalError": "Le formulaire contient 1 erreur | Le formulaire contient {count} erreurs"
       }
     },
     "language": {
@@ -89,7 +95,8 @@
         "title-1": "Une erreur est survenue !",
         "content-1": "Impossible de charger la page",
         "content-2": "Impossible de valider votre demande",
-        "content-3": "Merci de recharger la page"
+        "content-3": "Merci de recharger la page",
+        "content-4": "Le formulaire contient des erreurs"
       }
     },
     "footer": {
@@ -117,14 +124,25 @@
       "next": "image suivante",
       "close": "fermer"
     },
-    "staticSidebar": {
-      "content-1": "Ce site web multi supports (mobile, tablette, desktop) a été conçu avec notre application de gestionnaire de contenu.{line-break}Chaque page est entièrement administrable et proposée en multi-langue."
-    },
     "news": {
       "comment": "0 commentaire | 1 commentaire | {count} commentaires",
       "titleForm": "Laissez votre commentaire",
       "prev": "Article précédent",
-      "next": "Article suivant"
+      "next": "Article suivant",
+      "lastNews": "Dernières actualités"
+    },
+    "product": {
+      "seeMore": "Voir le produit",
+      "status": {
+        "st-1": "Nouveauté",
+        "st-2": "Prochainement",
+        "st-3": "Indisponible"
+      }
+    },
+    "accessibility": {
+      "skipToContent": "Aller au contenu",
+      "skipToNavigation": "Aller au menu",
+      "skipToSearch": "Aller au moteur de recherche"
     }
   }
 }

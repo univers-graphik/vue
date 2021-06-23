@@ -7,6 +7,8 @@ export default Object.freeze({
   CONTACT_FORM: '/contact-form', // POST
   // Meta description
   META_DESCRIPTION: '/{{lang}}/meta-description', // GET
+  // Society description
+  SOCIETY_DESCRIPTION: '/{{lang}}/society-description', // GET
   // Contact information
   CONTACT_INFORMATION: '/contact-information', // GET
   // Customization
@@ -27,10 +29,12 @@ export default Object.freeze({
   NEWS_LIST: '/{{lang}}/news-list/page={{page}}', // GET
   // News
   NEWS: '/{{lang}}/news/{{id}}', // GET
-  // News star
-  NEWS_STAR: '/{{lang}}/news-star', // GET
   // News pagination
   NEWS_PAGINATION: '/{{lang}}/news-pagination/{{id}}', // GET
+  // Lead News
+  LEAD_NEWS: '/{{lang}}/lead-news', // GET
+  // Last News
+  LAST_NEWS: '/{{lang}}/last-news', // GET
   // Sidebar
   SIDEBAR: '/{{lang}}/sidebar/{{target}}', // GET
   // Search engine

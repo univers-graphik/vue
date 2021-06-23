@@ -1,34 +1,47 @@
 <template>
   <div class="customization">
     <!-- Meta -->
-    <Meta :title="data.title || $enums.config.SOCIETY_SITE"
-          :url="data.slug || $pagesUrl[$i18n.locale].default"
-          social-network
-          :social-network-description="data.social_network_description"
-          :social-network-image="data.image ? data.image : '/medias/logo/social-network-default.png'"
-          :social-network-published-time="data.publication_date"/>
+    <meta-manager :title="data.title || $enums.config.SOCIETY_SITE"
+                  :url="data.slug || $pagesUrl[$i18n.locale].default"
+                  social-network
+                  :social-network-description="data.social_network_description"
+                  :social-network-image="data.image ? data.image : '/medias/logo/social-network-default.png'"
+                  :social-network-published-time="data.publication_date"/>
 
     <!-- Main container -->
     <div class="mainContainer mainContainer--spacerTB containerFloatingCol">
-      <!-- Informations -->
-      <StaticSidebar/>
+      <!-- Sidebar modules -->
+      <sidebar-modules v-if="!$enums.breakpoints.TABLET_PORTRAIT"
+                       class="is-noTabletPortrait"/>
 
-      <!-- Content -->
-      <div class="containerType1 floatingCol--large">
+      <!-- Main content -->
+      <main class="containerType1 floatingCol--large"
+            role="main">
         <transition name="vueFadeEffectContent"
                     mode="out-in">
           <!-- Loader -->
-          <Loader v-if="loading"/>
+          <loader-bounce v-if="loading"/>
 
-          <template v-else>
+          <article v-else
+                   class="news">
+            <!-- Focus element for skip link -->
+            <focus-to-content/>
+
+            <!-- Main title -->
             <h1 v-if="status === $enums.statusCode.NO_CONTENT"
-                class="titleType3 is-margin-0">{{ $t('common.noDataPage') }} !</h1>
+                class="titleType3 is-margin-0"
+                data-focus-title>{{ $t('common.noDataPage') }} !</h1>
 
             <!-- News -->
-            <article v-else
-                     class="news">
+            <template v-else>
               <!-- Main title -->
-              <h1 class="titleType1 is-marginBottom-0">{{ data.title }}</h1>
+              <h1 class="titleType1 is-marginBottom-15"
+                  data-focus-title>{{ data.title }}</h1>
+
+              <!-- Tag -->
+              <p v-if="data.tag"
+                 :class="cTextColor"
+                 class="news__tag">{{ data.tag }}</p>
 
               <!-- Header info -->
               <p class="news__headerInfo">
@@ -36,37 +49,51 @@
                 <b v-if="data.author"
                    class="news__author">{{ $tc('common.by', 2) }} {{ data.author }}</b>
 
-                <!-- Date post -->
-                <span v-if="data.publication_date"
-                      class="news__postDate">
+                <!-- Dates -->
+                <span class="news__date">
+                  <!-- Publication date -->
                   <i class="icon-hour"></i>
-                  <b>
-                    {{ $t('common.published') }}
-                    <time :datetime="data.publication_date">
-                      {{ $d(new Date(data.publication_date), 'newsList') }}
-                    </time>
-                  </b>
-                </span>
-                <!-- / Date post -->
+                  {{ $t('common.published') }}
+                  <time v-if="data.publication_date"
+                        :datetime="data.publication_date"
+                        class="is-bold">
+                    {{ $d(new Date(data.publication_date), 'news') }}
+                  </time>
+                  <!-- / Publication date -->
 
-                <!-- Comment -->
-                <button v-if="statusComment"
-                        class="news__comment"
-                        type="button"
-                        v-scroll-to="`#${formAnchor}`">
-                  <i class="icon-comment"></i>
-                  <b>{{ $tc('news.comment', data.comment, { count: data.comment }) }}</b>
-                </button>
-                <!-- / Comment -->
+                  <!-- Updated date -->
+                  <template v-if="data.updated_date">
+                      - {{ $t('common.updated') }}
+                      <time :datetime="data.updated_date"
+                            class="is-bold">
+                        {{ $d(new Date(data.updated_date), 'news') }}
+                      </time>
+                  </template>
+                  <!-- / Updated date -->
+                </span>
+                <!-- / Dates -->
               </p>
               <!-- / Header info -->
 
+              <!-- Comment -->
+              <button v-if="statusComment"
+                      class="news__comment"
+                      type="button"
+                      v-scroll-to="`#${formAnchor}`">
+                <i class="icon-comment"></i>
+                <b>{{ $tc('news.comment', data.comment, { count: data.comment }) }}</b>
+              </button>
+              <!-- / Comment -->
+
               <!-- Media -->
               <template v-if="data.image || data.video">
-                <figure class="news__media">
+                <figure
+                  :aria-label="data.legend ? $options.filters.convertString.replaceDoubleQuotes(data.legend) : false"
+                  class="news__media"
+                  role="figure">
                   <!-- Image -->
                   <img v-if="data.image && !data.video"
-                       v-lazy="{ src: data.image, error: '/medias/interface/image-error-panoramic.gif', loading: '/medias/interface/image-loader-blue.svg' }"
+                       v-lazy="{ src: data.image, error: $enums.images.ERROR_2000x500, loading: $enums.images.LOADER_BLUE }"
                        :alt="$options.filters.convertString.replaceDoubleQuotes(data.title)"/>
                   <!-- / Image -->
 
@@ -76,8 +103,8 @@
                          preload="metadata"
                          controls
                          class="news__video">
-                    <source :src="data.image ? data.video : data.video + '#t=0.5'"
-                            :type="'video/' + data.video_mime_type"/>
+                    <source :src="data.image ? data.video : `${data.video}#t=0.5`"
+                            :type="`video/${data.video_mime_type}`"/>
                   </video>
                   <!-- / Video -->
 
@@ -91,21 +118,18 @@
 
               <!-- Content -->
               <div v-html="data.content"
-                   class="textEditor textEditor--main"
+                   class="textEditor textEditor--main is-marginTop-15"
                    ref="textEditor"></div>
-
-              <!-- Share on social network -->
-              <SocialSharing :title="data.title"
-                             :description="data.social_network_description"
-                             class="is-marginTop-20"/>
-            </article>
-            <!-- / News -->
-          </template>
+              <!-- / Content -->
+            </template>
+          </article>
+          <!-- / News -->
         </transition>
 
         <!-- Pagination -->
-        <Pagination v-if="loadedData"
-                    :lang="cLangActive"/>
+        <news-pagination v-if="loadedData"
+                         :lang="cCurrentLanguage"
+                         :id="id"/>
         <!-- / Pagination -->
 
         <!-- Comments -->
@@ -125,11 +149,11 @@
           <p class="is-margin-0">En cours de développement</p>
         </template>
         <!-- / Comments -->
-      </div>
-      <!-- / Content -->
+      </main>
+      <!-- / Main content -->
 
       <!-- SideBar -->
-      <Sidebar :target="$enums.pages.NEWS"/>
+      <sidebar-element :target="$enums.pages.NEWS"/>
     </div>
     <!-- / Main container -->
   </div>
@@ -137,16 +161,24 @@
 
 <script>
 import newsServices from '@Services/newsServices'
+import textColor from '@Mixins/textColor'
 import Prism from 'prismjs'
-import Meta from '@Components/meta/Meta'
-import Loader from '@Components/helpers/loader/Loader'
-import StaticSidebar from '@Components/sidebar/StaticSidebar'
-import Sidebar from '@Components/sidebar/Sidebar'
-import Pagination from '@Components/news/Pagination'
-import SocialSharing from '@Components/socialSharing/SocialSharing'
+import MetaManager from '@Components/meta/MetaManager'
+import LoaderBounce from '@Components/helpers/loader/LoaderBounce'
+import SidebarModules from '@Components/sidebar/SidebarModules'
+import SidebarElement from '@Components/sidebar/SidebarElement'
+import NewsPagination from '@Components/pagination/NewsPagination'
+import FocusToContent from '@Components/accessibility/FocusToContent'
 
 export default {
   name: 'News',
+  mixins: [textColor],
+  props: {
+    id: {
+      type: [Number, String],
+      required: true
+    }
+  },
   data () {
     return {
       loading: false,
@@ -158,46 +190,36 @@ export default {
     }
   },
   components: {
-    SocialSharing,
-    Meta,
-    Loader,
-    StaticSidebar,
-    Sidebar,
-    Pagination
-  },
-  computed: {
-    /**
-     * Current lang url
-     * @returns {string}
-     */
-    cLangActive () {
-      return this.$store.state.parameters.urlLang
-    }
+    MetaManager,
+    LoaderBounce,
+    SidebarModules,
+    SidebarElement,
+    NewsPagination,
+    FocusToContent
   },
   watch: {
-    cLangActive (newVal, oldVal) {
+    cCurrentLanguage (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.loadData(this.cLangActive)
+        this.fetchDataNews(this.cCurrentLanguage)
       }
     },
-    '$route.params.id' (newVal, oldVal) {
+    id (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.loadData(this.cLangActive)
+        this.fetchDataNews(this.cCurrentLanguage)
       }
     }
   },
   methods: {
     /**
-     * Load data news content
+     * Fetch data news content
      * @param {string} lang
      */
-    loadData (lang) {
+    fetchDataNews (lang) {
       this.loading = true
       this.loadedData = false
-
       newsServices.getNews({
         lang: lang,
-        id: this.$route.params.id || null
+        id: this.id || null
       })
         .then((response) => {
           this.status = response.status
@@ -229,47 +251,64 @@ export default {
           // Redirect to 404
           this.$router.push({ name: this.$enums.pages.ERROR_404 })
         })
-        .finally(() => this.loading = false)
+        .finally(() => {
+          this.loading = false
+        })
     }
   },
   mounted () {
     // Data news
-    this.loadData(this.cLangActive)
+    this.fetchDataNews(this.cCurrentLanguage)
   }
 }
 </script>
 
 <style scoped lang="scss">
 .news {
-  &__headerInfo {
-    margin: 15px 0;
-    color: $color3;
-
-    b {
-      display: inline-block;
-      vertical-align: middle;
-      font-size: 13px;
+  &__tag {
+    margin: rem(10) 0;
+    font: {
+      family: $robotoBold;
+      size: rem(14);
     }
+    text-transform: uppercase;
+  }
+
+  &__headerInfo {
+    margin-top: rem(10);
+    margin-bottom: rem(10);
   }
 
   &__author {
-    margin-right: 15px;
+    margin-right: 5px;
     color: $color5;
-  }
-
-  &__postDate {
-    margin-right: 15px;
-    display: inline-block;
-    vertical-align: middle;
-    @media #{$isMobile} {
-      margin: 5px 0;
-      width: 100%;
+    font-size: rem(14);
+    @media #{$isXs} {
+      margin-right: 0;
+      margin-bottom: rem(5);
+      display: block;
     }
 
+    &:after {
+      content: '|';
+      margin-left: 10px;
+      font-size: rem(16);
+      color: $color3;
+      @media #{$isXs} {
+        display: none;
+      }
+    }
+  }
+
+  &__date {
+    color: $color3;
+    font-size: rem(13);
+
     [class*="icon-"] {
-      display: inline-block;
-      vertical-align: middle;
-      font-size: 16px;
+      margin-right: 5px;
+      position: relative;
+      top: rem(2);
+      font-size: rem(16);
     }
   }
 
@@ -281,25 +320,27 @@ export default {
     -moz-appearance: none;
     -webkit-appearance: none;
     color: $color3;
+    font-size: rem(14);
     transition: color .5s ease;
+
+    [class*="icon-"] {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: rem(22);
+    }
 
     &:focus {
       outline: none;
     }
 
-    [class*="icon-"] {
-      display: inline-block;
-      vertical-align: middle;
-      font-size: 22px;
-    }
-
-    &:hover {
+    &:hover,
+    &:focus {
       color: $color5;
     }
   }
 
   &__media {
-    margin: 0 0 15px;
+    margin: 15px 0;
     text-align: center;
   }
 
@@ -316,11 +357,11 @@ export default {
   }
 
   &__legend {
-    margin-top: 5px;
+    margin-top: rem(5);
     text-align: left;
     font: {
       family: $robotoLight;
-      size: 13px;
+      size: rem(14);
     }
     color: $color3;
   }

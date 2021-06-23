@@ -9,10 +9,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .headerGhost {
-    height: $headerHeight;
-    @media #{$isMobile} {
-      height: $headerHeightMobile;
-    }
+.headerGhost {
+  height: $headerHeight;
+  @media #{$isMobile} {
+    height: $headerHeightMobile;
   }
+}
 </style>

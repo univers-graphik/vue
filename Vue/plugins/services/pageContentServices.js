@@ -1,6 +1,8 @@
 import endpoints from '@Declarations/endpoints'
 import Request from '@Class/Request'
 
+const request = new Request({})
+
 export default {
   /**
    * Get page data
@@ -9,7 +11,7 @@ export default {
    * @returns {Promise<T | never>}
    */
   get ({ lang, id }) {
-    return Request
+    return request
       .get(endpoints.PAGE_CONTENT.replace('{{lang}}', lang).replace('{{id}}', id))
       .then((response) => {
         return response

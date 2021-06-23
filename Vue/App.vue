@@ -1,51 +1,54 @@
 <template>
   <div id="App">
+    <!-- Skip navigation -->
+    <skip-navigation/>
+
     <!-- Banner IE -->
-    <BannerIE v-if="browserLessIe11"
-              :version="browserVersion"/>
+    <banner-i-e v-if="browserLessIe11"
+                :version="browserVersion"/>
 
     <!-- Flash message -->
-    <FlashMessage/>
+    <flash-message/>
 
     <!-- Header -->
-    <Header/>
-
-    <HeaderGhost/>
+    <header-element/>
+    <header-ghost/>
     <!-- / Header -->
 
     <!-- Navmain -->
     <template v-if="$store.state.navmain.items.length">
       <transition name="vueFadeEffect">
-        <NavmainOverlay v-if="$store.state.parameters.openNavmain"/>
+        <navmain-overlay v-if="$store.state.parameters.openNavmain"/>
       </transition>
-      <Navmain :key="`${$store.state.navmain.key}-navmain`"/>
+      <navmain-element :key="`${$store.state.navmain.key}-navmain`"/>
     </template>
     <!-- / Navmain -->
 
     <!-- Content -->
     <transition name="vueFadeEffectPage"
                 mode="out-in">
-      <router-view :key="`${$route.params.id}-view`"/>
+      <router-view :key="$route.params.id ? `${$route.params.id}-view` : 'view'"/>
     </transition>
     <!-- / Content -->
 
     <!-- Footer -->
-    <Footer v-if="[$enums.pages.ERROR_404, $enums.pages.GALLERY].indexOf($store.state.route.current) === -1"/>
+    <footer-element v-if="![$enums.pages.ERROR_404, $enums.pages.GALLERY].includes($store.state.route.current)"/>
 
     <!-- Cookies info -->
-    <CookiesBar/>
+    <cookies-bar/>
   </div>
 </template>
 
 <script>
-import Header from '@Components/header/Header'
+import HeaderElement from '@Components/header/HeaderElement'
 import HeaderGhost from '@Components/header/HeaderGhost'
-import Navmain from '@Components/navmain/Navmain'
+import NavmainElement from '@Components/navmain/NavmainElement'
 import NavmainOverlay from '@Components/navmain/NavmainOverlay'
 import CookiesBar from '@Components/cookiesBar/CookiesBar'
 import BannerIE from '@Components/banner/BannerIE'
 import FlashMessage from '@Components/flashMessage/FlashMessage'
-import Footer from '@Components/footer/Footer'
+import FooterElement from '@Components/footer/FooterElement'
+import SkipNavigation from '@Components/accessibility/SkipNavigation'
 
 const { detect } = require('detect-browser')
 
@@ -58,23 +61,17 @@ export default {
     }
   },
   components: {
-    Header,
+    HeaderElement,
     HeaderGhost,
-    Navmain,
+    NavmainElement,
     NavmainOverlay,
     CookiesBar,
     BannerIE,
     FlashMessage,
-    Footer
+    FooterElement,
+    SkipNavigation
   },
   computed: {
-    /**
-     * Current lang url
-     * @returns {string}
-     */
-    cLangActive () {
-      return this.$store.state.parameters.urlLang
-    },
     /**
      * Status navmain
      * @returns {boolean}
@@ -84,16 +81,15 @@ export default {
     }
   },
   watch: {
-    cLangActive (newVal, oldVal) {
+    cCurrentLanguage (newVal, oldVal) {
       if (newVal !== oldVal) {
-        this.loadDataNavmain(this.cLangActive)
-        this.loadDataGalleriesExtract(this.cLangActive)
-        this.loadDataMeta(this.cLangActive)
+        this.fetchDataNavmain(this.cCurrentLanguage)
+        this.fetchDataMeta(this.cCurrentLanguage)
       }
     },
     cToggleNavmain (newVal, oldVal) {
       if (newVal !== oldVal && newVal === false) {
-        this.resetNavmain()
+        this.refreshNavmain(false)
       }
     }
   },
@@ -131,38 +127,27 @@ export default {
       document.querySelector('#App').style.backgroundColor = this.$store.state.customization.backgroundColor
     },
     /**
-     * Load data navmain
+     * Fetch data navmain
      * @param {string} lang
      */
-    loadDataNavmain (lang) {
+    fetchDataNavmain (lang) {
       this.$store.dispatch('navmain/get', lang)
         .catch((error) => {
           if (process.env.DEBUG) console.log(error.response)
           // Flash message error
           this.$store.dispatch('flashMessage/error', {
-              title: this.$t('flashMessage.error.title-1'),
-              msg: this.$t('flashMessage.error.content-3'),
-              reloadButton: true
-            }
-          )
+            title: this.$t('flashMessage.error.title-1'),
+            msg: this.$t('flashMessage.error.content-3'),
+            reloadButton: true
+          })
         })
     },
     /**
-     * Load data galleries extract
+     * Fetch data meta
      * @param {string} lang
      */
-    loadDataGalleriesExtract (lang) {
-      this.$store.dispatch('gallery/getExtract', lang)
-        .catch((error) => {
-          if (process.env.DEBUG) console.log(error.response)
-        })
-    },
-    /**
-     * Load data meta
-     * @param {string} lang
-     */
-    loadDataMeta (lang) {
-      this.$store.dispatch('meta/get', lang)
+    fetchDataMeta (lang) {
+      this.$store.dispatch('configuration/getMetaDescription', lang)
         .catch((error) => {
           if (process.env.DEBUG) console.log(error.response)
         })
@@ -172,8 +157,11 @@ export default {
     // Detect IE browser
     const browser = detect()
     if (browser) this.browserVersion = browser.version
-    this.browserLessIe11 = browser && browser.name === 'ie' && this.browserVersion !== '11.0.0'
-    if (browser && ['ie'].indexOf(browser.name) !== -1) document.body.classList.add('ie')
+    if (browser && browser.name) {
+      this.$store.commit('parameters/setBrowserName', browser.name)
+    }
+    this.browserLessIe11 = browser && browser.name === this.$enums.browserName.IE && this.browserVersion !== '11.0.0'
+    if (browser && [this.$enums.browserName.IE].includes(browser.name)) document.body.classList.add(this.$enums.browserName.IE)
 
     // Customization data
     this.$store.dispatch('customization/get')
@@ -190,21 +178,17 @@ export default {
         if (process.env.DEBUG) console.log(error.response)
         // Flash message error
         this.$store.dispatch('flashMessage/error', {
-            title: this.$t('flashMessage.error.title-1'),
-            msg: this.$t('flashMessage.error.content-3'),
-            reloadButton: true
-          }
-        )
+          title: this.$t('flashMessage.error.title-1'),
+          msg: this.$t('flashMessage.error.content-3'),
+          reloadButton: true
+        })
       })
 
     // Meta description
-    this.loadDataMeta(this.cLangActive)
+    this.fetchDataMeta(this.cCurrentLanguage)
 
     // Navmain data
-    this.loadDataNavmain(this.cLangActive)
-
-    // Galleries extract
-    if (this.$enums.config.GALLERY) this.loadDataGalleriesExtract(this.cLangActive)
+    this.fetchDataNavmain(this.cCurrentLanguage)
   }
 }
 </script>
